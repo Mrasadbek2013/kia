@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KIA Uzbekistan - Rasmiy uslubdagi sayohat</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #05141f;
+      --red: #bb1627;
+      --white: #fff;
+      --gray: #f2f4f5;
+      --text: #1c252b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "Manrope", Arial, sans-serif;
+      color: var(--text);
+      background: var(--white);
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input, select { font: inherit; }
+    .topbar {
+      height: 38px;
+      background: var(--black);
+      color: #cbd3d7;
+      font-size: 12px;
+    }
+    .topbar-inner, .nav-inner, .container {
+      max-width: 1280px;
+      margin: auto;
+      padding-inline: 28px;
+    }
+    .topbar-inner {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 28px;
+    }
+    .topbar a:hover { color: #fff; }
+    header {
+      height: 76px;
+      background: rgba(255,255,255,.97);
+      border-bottom: 1px solid #e7e9ea;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+    .nav-inner {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      gap: 42px;
+    }
+    .logo {
+      width: 82px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border: 2.5px solid var(--black);
+      border-radius: 50%;
+      font-size: 25px;
+      font-weight: 800;
+      letter-spacing: -3px;
+      transform: scaleX(1.08);
+    }
+    nav { display: flex; align-items: center; gap: 30px; flex: 1; }
+    nav a { font-size: 14px; font-weight: 700; }
+    nav a:hover { color: var(--red); }
+    .nav-actions { display: flex; align-items: center; gap: 14px; }
+    .icon-btn {
+      border: 0;
+      background: transparent;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      font-size: 18px;
+    }
+    .menu-btn { display: none; }
+    .hero {
+      height: 560px;
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(90deg, rgba(3,14,22,.78) 0%, rgba(3,14,22,.18) 58%, rgba(3,14,22,.05) 100%),
+        url("https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1800&q=88") center 58%/cover;
+    }
+    .hero-content {
+      height: 100%;
+      max-width: 1280px;
+      margin: auto;
+      padding: 100px 28px 40px;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .hero-kicker {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      margin-bottom: 14px;
+    }
+    .hero h1 {
+      font-size: clamp(46px, 6vw, 76px);
+      line-height: .95;
+      letter-spacing: -4px;
+      max-width: 620px;
+    }
+    .hero p {
+      margin: 24px 0 30px;
+      font-size: 18px;
+    }
+    .btn {
+      height: 46px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--black);
+      padding: 0 24px;
+      font-weight: 700;
+      font-size: 14px;
+      transition: .2s;
+    }
+    .btn-dark { background: var(--black); color: white; }
+    .btn-dark:hover { background: #17303f; }
+    .hero-controls {
+      position: absolute;
+      right: 38px;
+      bottom: 28px;
+      display: flex;
+      gap: 8px;
+    }
+    .hero-controls button {
+      width: 42px; height: 42px;
+      border: 1px solid rgba(255,255,255,.8);
+      border-radius: 50%;
+      background: rgba(0,0,0,.18);
+      color: white;
+      cursor: pointer;
+    }
+    .quick-search {
+      width: min(1224px, calc(100% - 56px));
+      min-height: 92px;
+      margin: -46px auto 70px;
+      position: relative;
+      z-index: 5;
+      background: white;
+      box-shadow: 0 10px 35px rgba(10,30,40,.13);
+      display: grid;
+      grid-template-columns: 1.5fr repeat(3, 1fr) auto;
+      align-items: center;
+      padding: 18px 22px;
+      gap: 12px;
+    }
+    .search-title { font-size: 19px; font-weight: 800; }
+    .field label {
+      display: block;
+      color: #69757b;
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .field select {
+      width: 100%;
+      border: 0;
+      border-bottom: 1px solid #bac2c6;
+      background: white;
+      outline: 0;
+      padding: 4px 20px 7px 0;
+      color: #1e292f;
+    }
+    .section { padding: 20px 0 78px; }
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      margin-bottom: 26px;
+    }
+    .section-head h2 {
+      font-size: 38px;
+      letter-spacing: -2px;
+    }
+    .view-all { font-weight: 700; border-bottom: 1px solid #777; padding-bottom: 3px; }
+    .models {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+    .model-card {
+      background: var(--gray);
+      min-width: 0;
+      transition: transform .25s, box-shadow .25s;
+    }
+    .model-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 14px 32px rgba(20,40,50,.12);
+    }
+    .model-image {
+      height: 210px;
+      background-position: center;
+      background-size: cover;
+    }
+    .model-info { padding: 20px; }
+    .model-info h3 { font-size: 20px; margin-bottom: 3px; }
+    .model-info p { color: #6b757a; font-size: 12px; margin-bottom: 16px; }
+    .model-info .price { font-size: 14px; font-weight: 800; }
+    .model-info .btn { margin-top: 16px; width: 100%; }
+    .promo {
+      background: #edf1f2;
+      padding: 80px 28px;
+    }
+    .promo-grid {
+      max-width: 1224px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 70px;
+    }
+    .promo-image {
+      height: 420px;
+      background: url("https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1100&q=88") center/cover;
+    }
+    .promo-copy h2 { font-size: 46px; letter-spacing: -3px; line-height: 1.05; }
+    .promo-copy p { margin: 20px 0 28px; line-height: 1.8; color: #58656b; }
+    footer { background: var(--black); color: #dce3e6; }
+    .footer-grid {
+      max-width: 1280px;
+      margin: auto;
+      padding: 58px 28px;
+      display: grid;
+      grid-template-columns: 2fr repeat(3, 1fr);
+      gap: 40px;
+    }
+    .footer-brand { font-size: 28px; font-weight: 800; color: white; }
+    .footer-col h4 { color: white; margin-bottom: 16px; }
+    .footer-col a { display: block; font-size: 13px; margin: 10px 0; color: #b9c3c7; }
+    .copyright {
+      border-top: 1px solid #20343f;
+      max-width: 1280px;
+      margin: auto;
+      padding: 18px 28px;
+      font-size: 11px;
+      color: #94a3a9;
+    }
+    @media (max-width: 980px) {
+      nav { display: none; }
+      .nav-inner { justify-content: space-between; }
+      .menu-btn { display: block; }
+      .models { grid-template-columns: repeat(2, 1fr); }
+      .quick-search { grid-template-columns: repeat(3, 1fr); }
+      .search-title { grid-column: 1 / -1; }
+      .quick-search .btn { grid-column: 1 / -1; }
+      .promo-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .topbar { display: none; }
+      header { height: 64px; }
+      .nav-inner, .topbar-inner, .container { padding-inline: 18px; }
+      .logo { width: 72px; height: 34px; font-size: 22px; }
+      .hero { height: 500px; }
+      .hero-content { padding: 76px 18px 30px; }
+      .hero h1 { font-size: 48px; letter-spacing: -3px; }
+      .hero p { font-size: 15px; }
+      .hero-controls { right: 18px; }
+      .quick-search {
+        width: calc(100% - 36px);
+        grid-template-columns: 1fr;
+        margin-top: -28px;
+        margin-bottom: 48px;
+      }
+      .quick-search .field { display: none; }
+      .models { grid-template-columns: 1fr; }
+      .model-image { height: 230px; }
+      .section-head h2 { font-size: 30px; }
+      .promo { padding: 55px 18px; }
+      .promo-image { height: 260px; }
+      .promo-copy h2 { font-size: 36px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .footer-brand { grid-column: 1 / -1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a href="#">Dillerlar</a>
+      <a href="#">Yordam</a>
+      <a href="#">UZ / TIL</a>
+    </div>
+  </div>
+
+  <header>
+    <div class="nav-inner">
+      <a class="logo" href="#" aria-label="KIA">KIA</a>
+      <nav>
+        <a href="#models">Modellar</a>
+        <a href="#">Elektr transport</a>
+        <a href="#">Maxsus takliflar</a>
+        <a href="#">Xizmatlar</a>
+        <a href="#">Brend haqida</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" aria-label="Qidiruv">⌕</button>
+        <button class="icon-btn" aria-label="Profil">♙</button>
+        <button class="icon-btn menu-btn" aria-label="Menyu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <div class="hero-kicker">YANGI AVLOD</div>
+        <h1>KIA SPORTAGE</h1>
+        <p>Harakatni yangi darajaga ko‘tar</p>
+        <a class="btn btn-dark" href="#models">Batafsil</a>
+      </div>
+      <div class="hero-controls">
+        <button aria-label="Oldingi slayd">←</button>
+        <button aria-label="Keyingi slayd">→</button>
+      </div>
+    </section>
+
+    <div class="quick-search">
+      <div class="search-title">Avtomobilingizni toping</div>
+      <div class="field">
+        <label>MODEL</label>
+        <select><option>Barcha modellar</option><option>Sportage</option><option>K5</option><option>Sorento</option></select>
+      </div>
+      <div class="field">
+        <label>KUZOV TURI</label>
+        <select><option>Barchasi</option><option>SUV</option><option>Sedan</option><option>MPV</option></select>
+      </div>
+      <div class="field">
+        <label>NARX</label>
+        <select><option>Barcha narxlar</option><option>$20,000 gacha</option><option>$20,000 dan</option></select>
+      </div>
+      <a class="btn btn-dark" href="#models">Qidirish</a>
+    </div>
+
+    <section class="section" id="models">
+      <div class="container">
+        <div class="section-head">
+          <h2>Modellarimiz</h2>
+          <a class="view-all" href="#">Hammasini ko‘rish</a>
+        </div>
+        <div class="models">
+          <article class="model-card">
+            <div class="model-image" style="background-image:url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=700&q=85')"></div>
+            <div class="model-info">
+              <h3>K5</h3><p>Premium sedan</p>
+              <div class="price">dan $29,990</div>
+              <a class="btn" href="#">Tanlash</a>
+            </div>
+          </article>
+          <article class="model-card">
+            <div class="model-image" style="background-image:url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=700&q=85')"></div>
+            <div class="model-info">
+              <h3>Sportage</h3><p>Shahar SUV</p>
+              <div class="price">dan $27,290</div>
+              <a class="btn" href="#">Tanlash</a>
+            </div>
+          </article>
+          <article class="model-card">
+            <div class="model-image" style="background-image:url('https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=700&q=85')"></div>
+            <div class="model-info">
+              <h3>Sorento</h3><p>Oilaviy SUV</p>
+              <div class="price">dan $31,990</div>
+              <a class="btn" href="#">Tanlash</a>
+            </div>
+          </article>
+          <article class="model-card">
+            <div class="model-image" style="background-image:url('https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=700&q=85')"></div>
+            <div class="model-info">
+              <h3>Carnival</h3><p>Premium MPV</p>
+              <div class="price">dan $34,490</div>
+              <a class="btn" href="#">Tanlash</a>
+            </div>
+          </article>
+          <article class="model-card">
+            <div class="model-image" style="background-image:url('https://images.unsplash.com/photo-1619767886558-efdc259cde1a?auto=format&fit=crop&w=700&q=85')"></div>
+            <div class="model-info">
+              <h3>EV6</h3><p>Elektr crossover</p>
+              <div class="price">dan $42,600</div>
+              <a class="btn" href="#">Tanlash</a>
+            </div>
+          </article>
+          <article class="model-card">
+            <div class="model-image" style="background-image:url('https://images.unsplash.com/photo-1597766353934-3e8a7b3b4e33?auto=format&fit=crop&w=700&q=85')"></div>
+            <div class="model-info">
+              <h3>EV9</h3><p>Katta elektr SUV</p>
+              <div class="price">dan $54,900</div>
+              <a class="btn" href="#">Tanlash</a>
+            </div>
+          </article>
+          <article class="model-card">
+            <div class="model-image" style="background-image:url('https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=700&q=85')"></div>
+            <div class="model-info">
+              <h3>Stinger</h3><p>Sport sedan</p>
+              <div class="price">dan $36,690</div>
+              <a class="btn" href="#">Tanlash</a>
+            </div>
+          </article>
+          <article class="model-card">
+            <div class="model-image" style="background-image:url('https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=700&q=85')"></div>
+            <div class="model-info">
+              <h3>Stonic</h3><p>Compact crossover</p>
+              <div class="price">dan $20,890</div>
+              <a class="btn" href="#">Tanlash</a>
+            </div>
+          </article>
+          <article class="model-card">
+            <div class="model-image" style="background-image:url('https://images.unsplash.com/photo-1549927681-0b673b8243ab?auto=format&fit=crop&w=700&q=85')"></div>
+            <div class="model-info">
+              <h3>Ceed</h3><p>Hatchback</p>
+              <div class="price">dan $21,490</div>
+              <a class="btn" href="#">Tanlash</a>
+            </div>
+          </article>
+          <article class="model-card">
+            <div class="model-image" style="background-image:url('https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=700&q=85')"></div>
+            <div class="model-info">
+              <h3>Seltos</h3><p>Shahar crossover</p>
+              <div class="price">dan $24,690</div>
+              <a class="btn" href="#">Tanlash</a>
+            </div>
+          </article>
+          <article class="model-card">
+            <div class="model-image" style="background-image:url('https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=700&q=85')"></div>
+            <div class="model-info">
+              <h3>Telluride</h3><p>Premium SUV</p>
+              <div class="price">dan $46,390</div>
+              <a class="btn" href="#">Tanlash</a>
+            </div>
+          </article>
+          <article class="model-card">
+            <div class="model-image" style="background-image:url('https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&w=700&q=85')"></div>
+            <div class="model-info">
+              <h3>Rio</h3><p>Yengil shahar modeli</p>
+              <div class="price">dan $18,290</div>
+              <a class="btn" href="#">Tanlash</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="promo">
+      <div class="promo-grid">
+        <div class="promo-image"></div>
+        <div class="promo-copy">
+          <h2>Yangi avlod elektr haydovchilik</h2>
+          <p>Sokin, kuchli va samarali. KIA elektr avtomobillari bilan yashil kelajakka birga qadam qo‘ying.</p>
+          <a class="btn btn-dark" href="#">Elektr modellar</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">KIA</div>
+      <div class="footer-col">
+        <h4>Modellar</h4>
+        <a href="#">Sedanlar</a>
+        <a href="#">SUV</a>
+        <a href="#">Elektr</a>
+      </div>
+      <div class="footer-col">
+        <h4>Yordam</h4>
+        <a href="#">Aloqa</a>
+        <a href="#">Dillerlar</a>
+        <a href="#">Texnik xizmat</a>
+      </div>
+      <div class="footer-col">
+        <h4>Havolalar</h4>
+        <a href="#">Yangiliklar</a>
+        <a href="#">Karyera</a>
+        <a href="#">KIA haqida</a>
+      </div>
+    </div>
+    <div class="copyright">© 2026 KIA Motors. Barcha huquqlar himoyalangan.</div>
+  </footer>
+</body>
+</html>
